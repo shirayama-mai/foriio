@@ -1,5 +1,5 @@
 {
-  "name": "@shirayama/foriio",
+  "name": "@shirayama-mai/foriio",
   "version": "1.0.0",
   "description": "Non officatil library to use foriio api.",
   "sideEffects": false,

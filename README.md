@@ -1,13 +1,13 @@
-# @shirayama/foriio
+# @shirayama-mai/foriio
 
 Non officatil library to use foriio api.
 
 ## Instrallation
 
 ```shell
-$ npm install @shirayama/foriio
+$ npm install @shirayama-mai/foriio
 
-$ yurn add @shirayama/foriio
+$ yurn add @shirayama-mai/foriio
 
-$ bun install @shrayama/foriio
+$ bun install @shirayama-mai/foriio
 ```
