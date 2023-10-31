@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 test
+package-lock.json
+bun.lockb
