@@ -12,5 +12,5 @@ module.exports = {
     "moduleNameMapper": {
       "@src(.*)$": "<rootDir>/src/$1"
     },
-    "globalSetup": "<rootDir>/src/tests/setup-env.ts"
+    "globalSetup": "<rootDir>/test/setup-env.ts"
   }

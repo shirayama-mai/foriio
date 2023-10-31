@@ -1,4 +1,4 @@
-import { AuthenticationError } from '@src/authentication-error';
+import { AuthenticationError } from '../index';
 
 /** Function to asynchronously get Works in Foriio
  * 
@@ -10,7 +10,7 @@ import { AuthenticationError } from '@src/authentication-error';
 export const requestWorks: Foriio.RequestWorks = (token: string) => {
     return new Promise(async (res, rej) => {
 
-        const response = await fetch('https://api.foriio.com/api/v1/developer/users', {
+        const response = await fetch('https://api.foriio.com/api/v1/developer/works', {
             headers: {
                 "Content-Type": "application/json",
                 token: token

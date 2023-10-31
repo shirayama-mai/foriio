@@ -1,5 +1,5 @@
 import { requestUser } from './request-user';
-import { AuthenticationError } from '@src/authentication-error'
+import { AuthenticationError } from '../index'
 
 describe('requestUser', () => {
 

@@ -1,4 +1,4 @@
-import { AuthenticationError } from '@src/authentication-error';
+import { AuthenticationError } from '../index';
 
 /** Function to asynchronously get User`s info in Foriio
  * 

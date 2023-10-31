@@ -1,7 +1,7 @@
-import { AuthenticationError } from './authentication-error';
+import { AuthenticationError } from './authentication-error/index';
 
-import { requestUser } from './request-user';
-import { requestWorks } from './request-works';
+import { requestUser } from './request-user/index';
+import { requestWorks } from './request-works/index';
 
 export {
     AuthenticationError,

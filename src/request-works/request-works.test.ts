@@ -1,5 +1,5 @@
 import { requestWorks } from './request-works';
-import { AuthenticationError } from '@src/authentication-error'
+import { AuthenticationError } from '../index'
 
 describe('requestWorks', () => {
 
