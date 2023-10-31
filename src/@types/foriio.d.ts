@@ -1,4 +1,4 @@
-declare namespace Foriio {
+export namespace Foriio {
 
     /** Information on the Works in which the user participates associated with the API key */
     export interface Works {
@@ -54,13 +54,9 @@ declare namespace Foriio {
     };
 
     export type AuthenticationErrorMessage = "Authentication error";
-
-    export type RequestWorks = (token: string) => Promise<Foriio.Works | Foriio.AuthenticationError>;
-
-    export type RequestUser = (token: string) => Promise<User | AuthenticationError>;
 };
 
-declare namespace Foriio.data {
+export namespace Foriio.data {
     export interface Image {
         "id": number,
         "urls": {

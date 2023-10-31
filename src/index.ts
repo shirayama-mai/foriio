@@ -8,3 +8,9 @@ export {
     requestUser,
     requestWorks
 };
+
+export default {
+    AuthenticationError,
+    requestUser,
+    requestWorks
+}

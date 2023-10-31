@@ -1,3 +1,4 @@
+import { Foriio } from '../@types/foriio';
 import { AuthenticationError } from '../index';
 
 /** Function to asynchronously get User`s info in Foriio
@@ -7,7 +8,7 @@ import { AuthenticationError } from '../index';
  * @param token API access key.
  * @returns 
  */
-export const requestUser: Foriio.RequestUser = (token: string) => {
+export const requestUser = (token: string): Promise<Foriio.User | AuthenticationError> => {
     return new Promise(async (res, rej) => {
 
         const response = await fetch('https://api.foriio.com/api/v1/developer/users', {

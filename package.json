@@ -1,11 +1,11 @@
 {
   "name": "@shirayama-mai/foriio",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Non officatil library to use foriio api.",
   "sideEffects": false,
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "npm-run-all -s build:*",
