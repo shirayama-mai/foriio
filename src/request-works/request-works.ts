@@ -6,9 +6,10 @@ import { AuthenticationError } from '../index';
  * If an invalid API access key is passed, reject AuthenticationError.
  * 
  * @param token API access key.
+ * @throws { AuthenticationError }
  * @returns 
  */
-export const requestWorks = (token: string): Promise<Foriio.Works | AuthenticationError> => {
+export const requestWorks = (token: string): Promise<Foriio.Works> => {
     return new Promise(async (res, rej) => {
 
         const response = await fetch('https://api.foriio.com/api/v1/developer/works', {

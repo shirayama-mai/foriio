@@ -39,9 +39,7 @@ export namespace Foriio {
             "status": "approved" | "",
             "is_pro": boolean
         };
-    }
-
-    
+    }    
 
     /** Error thrown when authentication fails */
     export interface AuthenticationError {        
