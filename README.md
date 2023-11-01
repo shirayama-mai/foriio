@@ -26,15 +26,23 @@ import Foriio from '@shirayama-mai/foriio';
  */
 
 // Promise chain
-Foriio.requestUser('API access key.')
-.then((user) => {
-    // your code here...
-});
+const sampleRequestUserPromise = async () => {
+    Foriio.requestUser('API access key')
+    .then(response => {
+        const resUser: Foriio.ResponseUser = response.result;
+        const user: Foriio.User = resUser.user;
+
+        // your code here...
+    });
+};
 
 // async/await
-const user = await Foriio.requestUser('API access key.');
+const sampleRequestUserAwait = async () => {
+    const resUser: Foriio.ResponseUser = (await Foriio.requestUser('API access key.')).result;
+    const user: Foriio.User = resUser.user;
 
-// your code here...
+    // your code here...
+};
 ```
 
 ### requestWorks
@@ -49,12 +57,58 @@ import Foriio from '@shirayama-mai/foriio';
  */
 
 // Promise chain
-Foriio.requestWorks('API access key.')
-.then((works) => {
-    // your code here...
-});
+const sampleRequestWorksPromise = async () => {
+    Foriio.requestWorks('API access key')
+    .then(response => {
+        const resWorks: Foriio.ResponseWorks = response.result;
+        const works: Foriio.Works.DefaultWork[] = resWorks.works;
 
+        // your code here...
+    });
+};
 // async/await
-const works = await Foriio.requestWorks('API access key.');
-// your code here...
+const sampleRequestWorksAwait = async () => {
+    const resWorks: Foriio.ResponseWorks = (await Foriio.requestWorks('API access key.')).result;
+    const works: Foriio.Works.DefaultWorks[] = resWorks.works;
+
+    // your code here...
+};
 ```
+
+### Filtering by works type
+You can use filterd works by works type;
+
+The sample is below.
+
+```typescript
+const works = await Foriio.requestWorks('API access key.').result.works;
+
+const imageWorks = works.filter(_works => _works.type === 'image')
+                        .map(_works => _works as Foriio.Works.ImageWorks);
+```
+
+### Handling AuthenticationError
+If api access key is expired or invalid,
+then AuthenticationError is throw.
+
+The sample for handling error is below.
+```typescript
+import { requestUser, AuthenticationError } from '@shirayama-mai/foriio';
+
+const sampleHandlingError = async () => {
+    const response = await requestUser('api access key.');
+    const result = response.result;
+
+    if (result instanceof AuthenticationError) {
+        // you can handling error;
+
+        return;
+    }
+
+    const user = result;
+    
+    // your code for regular situation here...
+};
+```
+
+# @shirayama-mai/foriio
