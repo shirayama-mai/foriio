@@ -1,15 +1,13 @@
-import { Foriio } from '../@types/foriio';
-import { AuthenticationError } from '../index';
+import Foriio, { AuthenticationError, Rejecter, Resolver } from '../index';
 
 /** Function to asynchronously get Works in Foriio
  * 
  * If an invalid API access key is passed, reject AuthenticationError.
  * 
  * @param token API access key.
- * @throws { AuthenticationError }
  * @returns 
  */
-export const requestWorks = (token: string): Promise<Foriio.Works> => {
+export const requestWorks = (token: string): Foriio.ResusltRequest<Foriio.ResponseWorks, AuthenticationError> => {
     return new Promise(async (res, rej) => {
 
         const response = await fetch('https://api.foriio.com/api/v1/developer/works', {
@@ -20,17 +18,17 @@ export const requestWorks = (token: string): Promise<Foriio.Works> => {
         });
 
         if (response.ok) {
-            const json = await response.json() as Foriio.Works;
+            const json = await response.json() as Foriio.ResponseWorks;
 
-            res(json);
+            res(new Resolver(json));
         }
 
         else if (!response.ok) {
-            const json = await response.json() as Foriio.AuthenticationError;
+            const json = await response.json() as Foriio.ResponseFailed;
 
             const error = new AuthenticationError(json.exception.message);
 
-            rej(error);
+            rej(new Rejecter(error));
         }
     });
 };

@@ -1,4 +1,4 @@
-import { Foriio } from '../@types/foriio';
+import Foriio from '../index'
 
 export class AuthenticationError extends Error {
     public readonly name: string = "Unauthorized";
