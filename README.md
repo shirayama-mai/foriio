@@ -26,18 +26,23 @@ import Foriio from '@shirayama-mai/foriio';
  */
 
 // Promise chain
-Foriio.requestUser('API access key')
-.then(response => {
-    const resUser: Foriio.ResponseUser = response.result;
+const sampleRequestUserPromise = async () => {
+    Foriio.requestUser('API access key')
+    .then(response => {
+        const resUser: Foriio.ResponseUser = response.result;
+        const user: Foriio.User = resUser.user;
+
+        // your code here...
+    });
+};
+
+// async/await
+const sampleRequestUserAwait = async () => {
+    const resUser: Foriio.ResponseUser = (await Foriio.requestUser('API access key.')).result;
     const user: Foriio.User = resUser.user;
 
     // your code here...
-});
-
-// async/await
-const user: Foriio.ResponseUser = await Foriio.requestUser('API access key.').result.user;
-
-// your code here...
+};
 ```
 
 ### requestWorks
@@ -52,16 +57,22 @@ import Foriio from '@shirayama-mai/foriio';
  */
 
 // Promise chain
-Foriio.requestWorks('API access key')
-.then(response => {
-    const resWorks: Foriio.ResponseWorks = response.result;
-    const works: Foriio.Works.DefaultWork[] = resWorks.works;
+const sampleRequestWorksPromise = async () => {
+    Foriio.requestWorks('API access key')
+    .then(response => {
+        const resWorks: Foriio.ResponseWorks = response.result;
+        const works: Foriio.Works.DefaultWork[] = resWorks.works;
+
+        // your code here...
+    });
+};
+// async/await
+const sampleRequestWorksAwait = async () => {
+    const resWorks: Foriio.ResponseWorks = (await Foriio.requestWorks('API access key.')).result;
+    const works: Foriio.Works.DefaultWorks[] = resWorks.works;
 
     // your code here...
-});
-// async/await
-const works = await Foriio.requestWorks('API access key.').result.works;
-// your code here...
+};
 ```
 
 ### Filtering by works type
