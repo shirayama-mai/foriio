@@ -1,6 +1,6 @@
 {
   "name": "@shirayama-mai/foriio",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "mai-shirayama",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
