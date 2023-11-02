@@ -3,7 +3,7 @@
     "compilerOptions": {
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
-        "outDir": "./dist/esm",
+        "outDir": "./dist/esm/",
         "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
         "paths": {
             "@src/*": ["./src/*"]
