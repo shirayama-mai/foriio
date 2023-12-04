@@ -1,3 +1,5 @@
 !cjs/
 !esm/
 test/
+.fixpackrc
+jest.config.js

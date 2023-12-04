@@ -2,7 +2,7 @@ import Foriio from "../index";
 import { filterWorks } from "./filter-works";
 
 const worksFactory = <T extends Foriio.Work> (type: Foriio.WorksType, description: string): T => {
-    const mock = jest.createMockFromModule<T>('../_index');
+    const mock = jest.createMockFromModule<T>('../index');
     mock.type = type;
     mock.description = description;
 

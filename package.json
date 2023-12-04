@@ -2,12 +2,20 @@
   "name": "@shirayama-mai/foriio",
   "version": "1.0.6",
   "description": "Non officatil library to use foriio api.",
-  "author": "mai-shirayama",
+  "author": "shirayama-mai <mai.shirayama@gmail.com> (https://twitter.com/mai_shirayama)",
   "license": "MIT",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:shirayama-mai/foriio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shirayama-mai/foriio/issues"
+  },
+  "homepage": "",
   "scripts": {
     "test": "jest --verbose",
     "build": "npm-run-all -s build:*",
@@ -33,8 +41,5 @@
     "access": "public",
     "auth-type": "legacy"
   },
-  "sideEffects": false,
-  "bugs": {},
-  "homepage": "",
-  "repository": {}
+  "sideEffects": false
 }

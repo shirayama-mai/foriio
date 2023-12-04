@@ -20,7 +20,9 @@ describe('test function requestUser', () => {
         expect(res.error).toBe('Unauthorized');
     });
 
-    // it('correct key', async () => {
+    it('correct key', async () => {
+        const res = await requestUser(CORRECT_KEY) as Foriio.Response.AuthenticationError;
 
-    // });
+        expect(res.status).toBe(undefined);
+    });
 });
