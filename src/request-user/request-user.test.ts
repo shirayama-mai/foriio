@@ -1,19 +1,28 @@
-import { requestUser } from './request-user';
-import Foriio, { AuthenticationError, Rejecter, Resolver } from '../index';
+import Foriio from "src/index";
+import { requestUser } from "./request-user";
 
-describe('requestUser', () => {
-    const rejecter = new Rejecter<AuthenticationError>(new AuthenticationError('Authentication error'));
+describe('test function requestUser', () => {
+    const BLANK_KEY = process.env.BLANK_KEY || '';
+    const INVALID_KEY = process.env.INVALID_KEY || '';
+    const CORRECT_KEY = process.env.CORRECT_KEY || '';
 
-    test('Usingapi api blank key', () => {
-        expect(requestUser(process.env.JEST_API_BLANK_KEY || '')).rejects.toStrictEqual(rejecter);
+    it('blank key', async () => {
+        const res = await requestUser(BLANK_KEY) as Foriio.Response.AuthenticationError;
+
+       expect(res.status).toBe(401);
+       expect(res.error).toBe('Unauthorized');
     });
 
-    test('Using api invalid key', () => {
-        expect(requestUser(process.env.JEST_API_INVALID_KEY || 'This is invalid api access key')).rejects.toStrictEqual(rejecter);
+    it('invalid key', async () => {
+        const res = await requestUser(INVALID_KEY) as Foriio.Response.AuthenticationError;
+
+        expect(res.status).toBe(401);
+        expect(res.error).toBe('Unauthorized');
     });
 
-    test ('Using api valid key', () => {
-        expect(requestUser(process.env.JEST_API_VALID_KEY || '')).resolves.toBeTruthy();
-    });
+    it('correct key', async () => {
+        const res = await requestUser(CORRECT_KEY) as Foriio.Response.AuthenticationError;
 
+        expect(res.status).toBe(undefined);
+    });
 });
