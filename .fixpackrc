@@ -1,0 +1,21 @@
+{
+    "sortToTop": [
+        "name",
+        "version",
+        "description",
+        "author",
+        "license",
+        "main",
+        "module",
+        "types",
+        "keywords",
+        "scripts",
+        "devDependencies",
+        "publishConfig",
+        "sideEffects"
+    ],
+    "sortedSubItems": [
+        "devDependencies",
+        "publishConfig"
+    ]
+}

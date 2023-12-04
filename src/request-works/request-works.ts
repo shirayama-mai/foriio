@@ -1,4 +1,4 @@
-import Foriio, { AuthenticationError, Rejecter, Resolver } from '../index';
+import Foriio from '../index';
 
 /** Function to asynchronously get Works in Foriio
  * 
@@ -7,28 +7,15 @@ import Foriio, { AuthenticationError, Rejecter, Resolver } from '../index';
  * @param token API access key.
  * @returns 
  */
-export const requestWorks = (token: string): Foriio.ResusltRequest<Foriio.ResponseWorks, AuthenticationError> => {
-    return new Promise(async (res, rej) => {
-
-        const response = await fetch('https://api.foriio.com/api/v1/developer/works', {
-            headers: {
-                "Content-Type": "application/json",
-                token: token
-            }
-        });
-
-        if (response.ok) {
-            const json = await response.json() as Foriio.ResponseWorks;
-
-            res(new Resolver(json));
-        }
-
-        else if (!response.ok) {
-            const json = await response.json() as Foriio.ResponseFailed;
-
-            const error = new AuthenticationError(json.exception.message);
-
-            rej(new Rejecter(error));
+export async function requestWorks (token: string): Promise<Foriio.Response.Works> {
+    const res = await fetch('https://api.foriio.com/api/v1/developer/works', {
+        headers: {
+            "Content-Type": "application/json",
+            token: token
         }
     });
+
+    const json = await res.json() as Foriio.Response.Works;
+
+    return json;
 };
