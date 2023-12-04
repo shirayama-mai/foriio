@@ -7,22 +7,22 @@ describe('test function requestUser', () => {
     const CORRECT_KEY = process.env.CORRECT_KEY || '';
 
     it('blank key', async () => {
-        const res = await requestUser(BLANK_KEY) as Foriio.Response.AuthenticationError;
+        const res = requestUser(BLANK_KEY);
 
-       expect(res.status).toBe(401);
-       expect(res.error).toBe('Unauthorized');
+        await expect(res).rejects.toThrow('Authentication error');
     });
 
     it('invalid key', async () => {
-        const res = await requestUser(INVALID_KEY) as Foriio.Response.AuthenticationError;
+        const res = requestUser(INVALID_KEY);
 
-        expect(res.status).toBe(401);
-        expect(res.error).toBe('Unauthorized');
+        await expect(res).rejects.toThrow('Authentication error');
     });
 
     it('correct key', async () => {
-        const res = await requestUser(CORRECT_KEY) as Foriio.Response.AuthenticationError;
+        const res = await requestUser(CORRECT_KEY);
 
-        expect(res.status).toBe(undefined);
+        const error = (res as any) as Foriio.Response.AuthenticationError;
+
+        expect(error.error).toBe(undefined);
     });
 });

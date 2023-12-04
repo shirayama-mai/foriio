@@ -15,7 +15,15 @@ export async function requestUser (token: string): Promise<Foriio.Response.User>
         }
     });
 
-    const json = await res.json() as Foriio.Response.User;
+    const json = await res.json();
 
-    return json;
+    if (json.user === undefined) {
+        const e = json as Foriio.Response.AuthenticationError;
+
+        console.error(e);
+
+        throw (new Error(e.exception.message));
+    }
+
+    return json as Foriio.Response.User;
 };

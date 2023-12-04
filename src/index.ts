@@ -49,7 +49,7 @@ declare namespace Foriio {
             phone: string;
         };
         id: number;
-        profession: 'UI' | '';
+        profession: string;
         screen_name: string;
         /** Linked Twitter`s url.
          * 
@@ -145,10 +145,8 @@ declare namespace Foriio.Response {
 
     /** Information about the user associated with the API Key */
     export type User = {
-        is_pro: boolean;
-        status: 'approved' | '';
         user: Foriio.User;
-    } | AuthenticationError;
+    };
 
     /** Information on the Works in which the user participates associated with the API key */
     export type Works = {
@@ -159,7 +157,14 @@ declare namespace Foriio.Response {
             total_count: number;
         };
         works: Foriio.Work[];
-    } | AuthenticationError;
+    };
+};
+
+declare namespace Foriio.WorksType {
+    export type COPY_WRITING = 'copy_writing';
+    export type IMAGE = 'image';
+    export type VIDEO = 'video';
+    export type WEB_ARTICLE = 'web_article';
 };
 
 export default Foriio;

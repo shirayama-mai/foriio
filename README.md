@@ -1,114 +1,118 @@
 # @shirayama-mai/foriio
 
+## Contents
+- [@shirayama-mai/foriio](#shirayama-maiforiio)
+  - [Contents](#contents)
+  - [What's\_this](#whats_this)
+  - [Instrallation](#instrallation)
+  - [How\_to\_use](#how_to_use)
+    - [ESM](#esm)
+  - [Usage](#usage)
+    - [requestUser](#requestuser)
+    - [requestWorks](#requestworks)
+    - [filterWorks](#filterworks)
+- [@shirayama-mai/foriio](#shirayama-maiforiio-1)
+
+## What's_this
 Non officatil library to use foriio api.
 
-## Instrallation
 
-```shell
+## Instrallation
+~~~shell
 $ npm install @shirayama-mai/foriio
 
 $ yurn add @shirayama-mai/foriio
 
 $ bun install @shirayama-mai/foriio
-```
+~~~
 
-## Usages
+## How_to_use
+This package supports both ESM and CommonJS.
+
+Incorporate it in a way that suits your project.
+
+### ESM
+~~~typescript
+//ESM
+import Foriio from '@shirayama-mai/foriio';
+
+import { requestUser, requestWorks, filterWorks } = from '@shirayama-mai/foriio';
+
+//CommonJS
+const Foriio = require('@shirayama-mai/foriio');
+
+const requestUser = require('@shirayama-mai/foriio').requestUser;
+const requestWorks = require('@shirayama-mai/foriio').requestWorks;
+const filterWorks = require('@shirayama-mai/foriio').filterWorks;
+~~~
+
+## Usage
 
 ### requestUser
-```typescript
-import Foriio from '@shirayama-mai/foriio';
-/*
- * import { requestUser } from '@shirayama-mai/foriio'
- *
- * const Foriio = require('@shirayama-mai/foriio');
- * or
- * const requestUser = require('@shirayama-mai/foriio').requestUser;
- */
+Can retrieve information about the user corresponding to the API key.
+~~~typescript
+import Foriio, { requestUser } from 'src/index';
 
-// Promise chain
-const sampleRequestUserPromise = async () => {
-    Foriio.requestUser('API access key')
-    .then(response => {
-        const resUser: Foriio.ResponseUser = response.result;
-        const user: Foriio.User = resUser.user;
+const sampleRequestUser = async (apiKey: string) => {
+    const responseUser: Foriio.Response.User = await requestUser(apiKey);
 
-        // your code here...
-    });
+    const user: Foriio.User = responseUser.user;
+
+    console.log(user.screen_name);
+
+    console.log(user.avatar.original);
+
+    // any code here...
+
+    // You can access user`s info
 };
-
-// async/await
-const sampleRequestUserAwait = async () => {
-    const resUser: Foriio.ResponseUser = (await Foriio.requestUser('API access key.')).result;
-    const user: Foriio.User = resUser.user;
-
-    // your code here...
-};
-```
+~~~
 
 ### requestWorks
-```typescript
-import Foriio from '@shirayama-mai/foriio';
-/*
- * import { requestWorks } from '@shirayama-mai/foriio'
- *
- * const Foriio = require('@shirayama-mai/foriio');
- * or
- * const requestWorks = require('@shirayama-mai/foriio').requestWorks;
- */
+Can get an array of the user's Works corresponding to the API key.
+~~~typescript
+import Foriio, { requestWorks } from 'src/index';
 
-// Promise chain
-const sampleRequestWorksPromise = async () => {
-    Foriio.requestWorks('API access key')
-    .then(response => {
-        const resWorks: Foriio.ResponseWorks = response.result;
-        const works: Foriio.Works.DefaultWork[] = resWorks.works;
+const sampleRequestWorks = async (apiKey: string) => {
+    const responseWorks: Foriio.Response.Works = await requestWorks(apiKey);
 
-        // your code here...
+    const works: Foriio.Work[] = responseWorks.works;
+
+    // any code here...
+
+    works.map(works => {
+        // You can access to works objects.
     });
 };
-// async/await
-const sampleRequestWorksAwait = async () => {
-    const resWorks: Foriio.ResponseWorks = (await Foriio.requestWorks('API access key.')).result;
-    const works: Foriio.Works.DefaultWorks[] = resWorks.works;
+~~~
 
-    // your code here...
-};
-```
+### filterWorks
+It is possible to filter by Works type.
 
-### Filtering by works type
-You can use filterd works by works type;
+~~~typescript
+import Foriio, { requestWorks, filterWorks } from 'src/index';
 
-The sample is below.
+const sampleFilterWokrs = async (apiKey: string) => {
+    const responseWorks: Foriio.Response.Works = await requestWorks(apiKey);
+    const works: Foriio.Work[] = responseWorks.works;
 
-```typescript
-const works = await Foriio.requestWorks('API access key.').result.works;
+    const imageWorks: Foriio.ImageWork[] = filterWorks(works, 'image');
 
-const imageWorks = works.filter(_works => _works.type === 'image')
-                        .map(_works => _works as Foriio.Works.ImageWorks);
-```
+    // any code here...
 
-### Handling AuthenticationError
-If api access key is expired or invalid,
-then AuthenticationError is throw.
+    imageWorks.map(imageWorks => {
+        // You can use works info.
 
-The sample for handling error is below.
-```typescript
-import { requestUser, AuthenticationError } from '@shirayama-mai/foriio';
+        console.log(imageWorks.title);        
+        console.log(imageWorks.description);
 
-const sampleHandlingError = async () => {
-    const response = await requestUser('api access key.');
-    const result = response.result;
+        imageWorks.images.map(image => {
+            // You can use image hrefs.
 
-    if (result instanceof AuthenticationError) {
-        // you can handling error;
-
-        return;
-    }
-
-    const user = result;
-    
-    // your code for regular situation here...
-};
-```
+            console.log(image.urls.detail);
+        });
+    });
+}
+~~~
 
 # @shirayama-mai/foriio

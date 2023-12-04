@@ -15,7 +15,15 @@ export async function requestWorks (token: string): Promise<Foriio.Response.Work
         }
     });
 
-    const json = await res.json() as Foriio.Response.Works;
+    const json = await res.json();
+
+    if (json.works === undefined) {
+        const e = json as Foriio.Response.AuthenticationError;
+
+        console.error(e);
+
+        throw (new Error(e.exception.message));
+    }
 
     return json;
 };

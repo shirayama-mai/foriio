@@ -1,5 +1,6 @@
 !cjs/
 !esm/
 test/
+src/
 .fixpackrc
 jest.config.js

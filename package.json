@@ -7,7 +7,9 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
-  "keywords": [],
+  "keywords": [
+    "Foriio"
+  ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:shirayama-mai/foriio.git"
@@ -17,7 +19,7 @@
   },
   "homepage": "",
   "scripts": {
-    "test": "jest --verbose",
+    "test": "jest --verbose --silent",
     "build": "npm-run-all -s build:*",
     "build:clean-cjs": "rimraf ./cjs",
     "build:clean-esm": "rimraf ./esm",
