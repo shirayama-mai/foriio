@@ -17,10 +17,13 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist/",
+    "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
     },
     "allowJs": true
-  }
+  },
+  "include": [
+    "./src/*"
+  ]
 }
