@@ -128,8 +128,7 @@ out
 .yarn/install-state.gz
 .pnp.*
 
-cjs/
-esm/
+dist/
 test/
 package-lock.json
 bun.lockb

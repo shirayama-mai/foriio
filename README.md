@@ -52,7 +52,7 @@ const Foriio = require('@shirayama-mai/foriio');
 import { Foriio } from '@shirayama-mai/foriio';
 
 const sampleInitialize = async (apyKey: string) => {
-    const foriio = new Foriio(apiKey);
+    const foriio = Foriio(apiKey);
 };
 
 ~~~

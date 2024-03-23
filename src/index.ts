@@ -1,82 +1,34 @@
-import { AuthenticationError, ParameterTypeError } from './error/index';
+import { filterWorks } from './filter-works';
+import { getForiioUser } from './get-foriio-user';
+import { getForiioWorks } from './get-foriio-works';
 
-export class Foriio {
-    private static readonly _URL = 'https://api.foriio.com';
-    private static readonly _ENDPOINT_USER = '/api/v1/developer/users';
-    private static readonly _ENDPOINT_WORKS = '/api/v1/developer/works';
+export const Foriio = (apiKey: string) => {
     
-    private readonly _apiKey: string;
-
-    constructor (apiKey: string) {
-        if (typeof apiKey !== 'string') {
-            throw new ParameterTypeError(`apiKey required type 'string' but was given '${ typeof apiKey }`);
-        }
-        
-        this._apiKey = apiKey;
-    }
-
-    /**
-     * Function to filter the type of works
-     * 
-     * @param works array of works objects;
-     * @param worksType type of works;
-     * @returns
-     */
-    public filterWorks<T extends keyof Foriio.WorksTypeMap> (works: Foriio.Work[], worksType: T | Foriio.WorksType): Foriio.WorksTypeMap[T] {
-        return works.filter(work => work.type === worksType) as Foriio.WorksTypeMap[T];
-    };
-
-    /** Function to asynchronously get User`s info in Foriio
-     * 
-     * If an invalid API access key is passed, return AuthenticationError.
-     * 
-     * @param token API access key.
-     * @returns 
-     */
-    public async getForiioUser () {
-        const res = await this._request<Foriio.Response.User>(Foriio._ENDPOINT_USER);
-        
-        return res.user;
-    }
-
-    /** Function to asynchronously get Works in Foriio
-     * 
-     * If an invalid API access key is passed, reject AuthenticationError.
-     * 
-     * @param token API access key.
-     * @returns 
-     */
-    public async getForiioWorks () {
-        const res = await this._request<Foriio.Response.Works>(Foriio._ENDPOINT_WORKS);
-
-        return res.works;
-    };
-
-    public async _request<T> (endpoint: string) {
-        if (typeof endpoint !== 'string') {
-            throw new ParameterTypeError(`endpoint required type 'string' but was given '${ typeof endpoint }`);
-        }
-
-        const url = Foriio._URL + endpoint;
-
-        const res = await fetch(url, {
-            headers: {
-                "Content-Type": "application/json",
-                token: this._apiKey
-            }
-        });
-
-        const json = await res.json();
-
-        if (json.status === 401) {
-            throw (new AuthenticationError(json.exception.message));
-        }
-
-        return json as T;
+    return {
+        /**
+         * Function to filter the type of works
+         * 
+         * @param works array of works objects;
+         * @param worksType type of works;
+         * @returns
+         */
+        filterWorks,
+        /** 
+         * Function to asynchronously get User`s info in Foriio
+         * 
+         * @returns 
+         */
+        getForiioUser: () => getForiioUser(apiKey),
+        /**
+         * Function to asynchronously get Works in Foriio
+         * 
+         * @returns 
+         */
+        getForiioWorks: () => getForiioWorks(apiKey)
     }
 };
 
-declare namespace Foriio {
+export namespace Foriio {
     /** An Object of works published in the category 'Image' */
     export type ImageWork = {
         images: Foriio.Data.Image[];
@@ -141,75 +93,75 @@ declare namespace Foriio {
         'video': VideoWork[];
         'web_article': WebArticleWork[]
     };
-};
 
-declare namespace Foriio.Data {
-    export type Image = {
-        id: number;
-        height: number;
-        srcset: string;
-        urls: {
-            detail: string;
-            detail2x: string;
-            list: string;
-            list2x: string;
-            profile_header_image: string | null;
+    export namespace Data {
+        export type Image = {
+            id: number;
+            height: number;
+            srcset: string;
+            urls: {
+                detail: string;
+                detail2x: string;
+                list: string;
+                list2x: string;
+                profile_header_image: string | null;
+            };
+            width: number;
         };
-        width: number;
-    };
-
-    export type Video = {
-        description: string;
-        picture_url: string;
-        platform: 'youtube' | '';
-        title: string;
-        url: string;
-        video_id: string;
-    };
-
-    export type WebArticle = {
-        description: string;
-        domain: string;
-        image: string;
-        og_type: 'article' | 'website';
-        title: string;
-        url: string;
-    };
-};
-
-declare namespace Foriio.Response {
-    /** Error thrown when authentication fails */
-    export type AuthenticationError = {
-        status: 401 | number;
-        error: 'Unauthorized',
-        exception: {
-            class: 'ErrorHandler::AuthenticationError';
-            message: 'Authentication error'
+    
+        export type Video = {
+            description: string;
+            picture_url: string;
+            platform: 'youtube' | '';
+            title: string;
+            url: string;
+            video_id: string;
         };
-    };
-
-    /** Information about the user associated with the API Key */
-    export type User = {
-        user: Foriio.User;
-    };
-
-    /** Information on the Works in which the user participates associated with the API key */
-    export type Works = {
-        meta: {
-            current_page: number;
-            per_page: number;
-            total_pages: number;
-            total_count: number;
+    
+        export type WebArticle = {
+            description: string;
+            domain: string;
+            image: string;
+            og_type: 'article' | 'website';
+            title: string;
+            url: string;
         };
-        works: Foriio.Work[];
-    };
-};
+    }
+    
+    export namespace Response {
+        /** Error thrown when authentication fails */
+        export type AuthenticationError = {
+            status: 401 | number;
+            error: 'Unauthorized',
+            exception: {
+                class: 'ErrorHandler::AuthenticationError';
+                message: 'Authentication error'
+            };
+        };
+    
+        /** Information about the user associated with the API Key */
+        export type User = {
+            user: Foriio.User;
+        };
+    
+        /** Information on the Works in which the user participates associated with the API key */
+        export type Works = {
+            meta: {
+                current_page: number;
+                per_page: number;
+                total_pages: number;
+                total_count: number;
+            };
+            works: Foriio.Work[];
+        };
+    }
 
-declare namespace Foriio.WorksType {
-    export type COPY_WRITING = 'copy_writing';
-    export type IMAGE = 'image';
-    export type VIDEO = 'video';
-    export type WEB_ARTICLE = 'web_article';
+    export namespace WorksType {
+        export type COPY_WRITING = 'copy_writing';
+        export type IMAGE = 'image';
+        export type VIDEO = 'video';
+        export type WEB_ARTICLE = 'web_article';
+    }
 };
 
 export default Foriio;

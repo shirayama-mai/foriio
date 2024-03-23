@@ -1,5 +1,4 @@
-!cjs/
-!esm/
+!dist/
 test/
 src/
 .fixpackrc
