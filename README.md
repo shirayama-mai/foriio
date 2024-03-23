@@ -6,10 +6,12 @@
   - [What's\_this](#whats_this)
   - [Instrallation](#instrallation)
   - [How\_to\_use](#how_to_use)
-    - [ESM](#esm)
+    - [ESM](#ESM)
+    - [CJS](#CJS)
   - [Usage](#usage)
-    - [requestUser](#requestuser)
-    - [requestWorks](#requestworks)
+    - [initialize](#initialize)
+    - [requestForiioUser](#requestForiioUser)
+    - [requestForiioWorks](#requestForiioWorks)
     - [filterWorks](#filterworks)
 - [@shirayama-mai/foriio](#shirayama-maiforiio-1)
 
@@ -33,34 +35,41 @@ Incorporate it in a way that suits your project.
 
 ### ESM
 ~~~typescript
-//ESM
+import { Foriio } from '@shirayama-mai/foriio';
+// or
 import Foriio from '@shirayama-mai/foriio';
+~~~
 
-import { requestUser, requestWorks, filterWorks } = from '@shirayama-mai/foriio';
-
-//CommonJS
+### CJS
+~~~typescript
 const Foriio = require('@shirayama-mai/foriio');
-
-const requestUser = require('@shirayama-mai/foriio').requestUser;
-const requestWorks = require('@shirayama-mai/foriio').requestWorks;
-const filterWorks = require('@shirayama-mai/foriio').filterWorks;
 ~~~
 
 ## Usage
 
+### initialize
+~~~typescript
+import { Foriio } from '@shirayama-mai/foriio';
+
+const sampleInitialize = async (apyKey: string) => {
+    const foriio = new Foriio(apiKey);
+};
+
+~~~
+
 ### requestUser
 Can retrieve information about the user corresponding to the API key.
 ~~~typescript
-import Foriio, { requestUser } from 'src/index';
+import { Foriio } from '@shirayama-mai/foriio';
 
 const sampleRequestUser = async (apiKey: string) => {
-    const responseUser: Foriio.Response.User = await requestUser(apiKey);
+    const foriio = new Foriio(apiKey);
 
-    const user: Foriio.User = responseUser.user;
+    const foriioUser = await foriio.getForiioUser();
 
-    console.log(user.screen_name);
+    console.log(foriioUser.screen_name);
 
-    console.log(user.avatar.original);
+    console.log(foriioUser.profile.avatar.original);
 
     // any code here...
 
@@ -71,16 +80,16 @@ const sampleRequestUser = async (apiKey: string) => {
 ### requestWorks
 Can get an array of the user's Works corresponding to the API key.
 ~~~typescript
-import Foriio, { requestWorks } from 'src/index';
+import { Foriio } from '@shirayama-mai/foriio';
 
 const sampleRequestWorks = async (apiKey: string) => {
-    const responseWorks: Foriio.Response.Works = await requestWorks(apiKey);
+    const foriio = new Foriio(apiKey);
 
-    const works: Foriio.Work[] = responseWorks.works;
+    const foriioWorks = await foriio.getWorks(apiKey);
 
     // any code here...
 
-    works.map(works => {
+    foriioWorks.map(works => {
         // You can access to works objects.
     });
 };
@@ -90,13 +99,14 @@ const sampleRequestWorks = async (apiKey: string) => {
 It is possible to filter by Works type.
 
 ~~~typescript
-import Foriio, { requestWorks, filterWorks } from 'src/index';
+import { Foriio } from '@shirayama-mai/foriio';
 
 const sampleFilterWokrs = async (apiKey: string) => {
-    const responseWorks: Foriio.Response.Works = await requestWorks(apiKey);
-    const works: Foriio.Work[] = responseWorks.works;
+    const foriio = new Foriio(apiKey);
 
-    const imageWorks: Foriio.ImageWork[] = filterWorks(works, 'image');
+    const foriioWorks = await foriio.getWorks(apiKey);
+
+    const imageWorks: Foriio.ImageWork[] = foriio.filterWorks(foriioWorks, 'image');
 
     // any code here...
 

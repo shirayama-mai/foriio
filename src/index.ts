@@ -1,8 +1,20 @@
-import { filterWorks } from './filter-works/filter-works';
-import { requestUser } from './request-user/request-user';
-import { requestWorks } from './request-works/request-works';
+import { AuthenticationError, ParameterTypeError } from './error/index';
 
-const Foriio = {
+export class Foriio {
+    private static readonly _URL = 'https://api.foriio.com';
+    private static readonly _ENDPOINT_USER = '/api/v1/developer/users';
+    private static readonly _ENDPOINT_WORKS = '/api/v1/developer/works';
+    
+    private readonly _apiKey: string;
+
+    constructor (apiKey: string) {
+        if (typeof apiKey !== 'string') {
+            throw new ParameterTypeError(`apiKey required type 'string' but was given '${ typeof apiKey }`);
+        }
+        
+        this._apiKey = apiKey;
+    }
+
     /**
      * Function to filter the type of works
      * 
@@ -10,7 +22,10 @@ const Foriio = {
      * @param worksType type of works;
      * @returns
      */
-    filterWorks,
+    public filterWorks<T extends keyof Foriio.WorksTypeMap> (works: Foriio.Work[], worksType: T | Foriio.WorksType): Foriio.WorksTypeMap[T] {
+        return works.filter(work => work.type === worksType) as Foriio.WorksTypeMap[T];
+    };
+
     /** Function to asynchronously get User`s info in Foriio
      * 
      * If an invalid API access key is passed, return AuthenticationError.
@@ -18,7 +33,12 @@ const Foriio = {
      * @param token API access key.
      * @returns 
      */
-    requestUser,
+    public async getForiioUser () {
+        const res = await this._request<Foriio.Response.User>(Foriio._ENDPOINT_USER);
+        
+        return res.user;
+    }
+
     /** Function to asynchronously get Works in Foriio
      * 
      * If an invalid API access key is passed, reject AuthenticationError.
@@ -26,7 +46,34 @@ const Foriio = {
      * @param token API access key.
      * @returns 
      */
-    requestWorks
+    public async getForiioWorks () {
+        const res = await this._request<Foriio.Response.Works>(Foriio._ENDPOINT_WORKS);
+
+        return res.works;
+    };
+
+    public async _request<T> (endpoint: string) {
+        if (typeof endpoint !== 'string') {
+            throw new ParameterTypeError(`endpoint required type 'string' but was given '${ typeof endpoint }`);
+        }
+
+        const url = Foriio._URL + endpoint;
+
+        const res = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                token: this._apiKey
+            }
+        });
+
+        const json = await res.json();
+
+        if (json.status === 401) {
+            throw (new AuthenticationError(json.exception.message));
+        }
+
+        return json as T;
+    }
 };
 
 declare namespace Foriio {
@@ -38,24 +85,23 @@ declare namespace Foriio {
 
     /** An object of user infomation */
     export type User = {
-        avatar: {
-            original: string;
-            profile_header_image: string | null;
-            /** "https://d1yy3fmo6s8c2k.cloudfront.net/store/b79bd73a723d9c0d986ba6294ead799b.jpg" */
-            thumb2x: string;
-            /** "https://d1yy3fmo6s8c2k.cloudfront.net/store/7b1be39516759d5eb82d304b9c59d8a5.jpg" */
-            thumb: string;
-            /** "https://d1yy3fmo6s8c2k.cloudfront.net/store/1e69dd7c19d2b72f7fd82188f802c373.jpg" */
-            phone: string;
-        };
         id: number;
-        profession: string;
         screen_name: string;
-        /** Linked Twitter`s url.
-         * 
-         * e.g.) https://twitter.com/mai_shirayama
-         */
-        twitter_url: string;
+        profile: {
+            id: number;
+            name: string;
+            profession: string;
+            twitter_url?: string;
+            avatar: {
+                original: string;
+                thumb2x: string;
+                thumb: string;
+                phone: string;
+                profile_header_image: string | null;
+            }
+        };
+        status: 'approved' | string;
+        is_pro: boolean;
     };
 
     /** An Object of works published in the category 'Video' */
@@ -87,7 +133,6 @@ declare namespace Foriio {
 
     /** Type of works */
     export type WorksType = 'copy_writing' | 'image' | 'video' | 'web_article';
-
 
     /** Interface between worksType and works type */
     export type WorksTypeMap = {
@@ -168,9 +213,3 @@ declare namespace Foriio.WorksType {
 };
 
 export default Foriio;
-
-export {
-    filterWorks,
-    requestUser,
-    requestWorks
-};

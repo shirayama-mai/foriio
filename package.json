@@ -1,6 +1,6 @@
 {
   "name": "@shirayama-mai/foriio",
-  "version": "2.0.1",
+  "version": "3.1.0",
   "description": "Non officatil library to use foriio api.",
   "author": "shirayama-mai <mai.shirayama@gmail.com> (https://twitter.com/mai_shirayama)",
   "license": "MIT",
@@ -20,7 +20,7 @@
   "homepage": "",
   "scripts": {
     "test": "jest --verbose --silent",
-    "build": "npm-run-all -s build:*",
+    "build": "run-s build:*",
     "build:clean-cjs": "rimraf ./cjs",
     "build:clean-esm": "rimraf ./esm",
     "build:tsc-cjs": "tsc -p tsconfig.cjs.json",
