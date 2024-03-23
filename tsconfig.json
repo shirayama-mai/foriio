@@ -18,9 +18,6 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "allowJs": true
   },
   "include": [

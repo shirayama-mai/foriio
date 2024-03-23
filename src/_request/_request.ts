@@ -1,4 +1,4 @@
-import { AuthenticationError, ParameterTypeError } from "@/error/index";
+import { AuthenticationError, ParameterTypeError } from "../error";
 
 export async function _request<T> (apiKey: string, endpoint: string) {
     if (typeof endpoint !== 'string') {
